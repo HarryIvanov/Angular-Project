@@ -1,0 +1,50 @@
+
+<section id="loginPage">
+    <form class="loginForm" [formGroup]="form" (ngSubmit)="login()">
+        <img src="/assets/logo.png" alt="logo" />
+        <h2>Login</h2>
+
+        <div>
+            <label for="email">Email:</label>
+            <input id="email" name="email" type="text" placeholder="-- Your Email Here --" value="" formControlName="email">
+        </div>
+        <ng-container *ngIf="form.get('email')?.touched">
+            <p class="error" *ngIf="form.get('email')?.errors?.['required']">
+              Email is required!
+            </p>
+            <p
+              class="error"
+              *ngIf="form.get('email')?.errors?.['appEmailValidator']"
+            >
+              Email is not valid!
+            </p>
+          </ng-container>
+
+        <div>
+            <label for="password">Password:</label>
+            <input id="password" name="password" type="password" placeholder="********" value="" formControlName="password">
+        </div>
+        <ng-container *ngIf="form.get('password')?.touched">
+            <p
+              class="error"
+              *ngIf="form.get('password')?.errors?.['required']"
+            >
+              Password is required!
+            </p>
+            <p
+              class="error"
+              *ngIf="form.get('password')?.errors?.['minlength']"
+            >
+              Password must be at least
+              {{form.get('password')?.errors?.['minlength']?.['requiredLength']}}
+              characters!
+            </p>
+          </ng-container>
+
+        <button class="btn" type="submit" [disabled]="form.invalid">Login</button>
+
+        <p class="field">
+            <span>If you don't have profile click <a href="/register">here</a></span>
+        </p>
+    </form>
+</section>

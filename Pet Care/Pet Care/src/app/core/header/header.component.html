@@ -1,0 +1,19 @@
+<header>
+  <nav>
+    <section class="logo">
+      <img src="/assets/logo.png" alt="logo" />
+    </section>
+    <ul *ngIf="isLoggedIn">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/create-card">Create Postcard</a></li>
+      <li><a class="logout" (click)="logout()">Logout</a></li>
+    </ul>
+    <ul *ngIf="!isLoggedIn">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/register">Register</a></li>
+    </ul>
+  </nav>
+</header>

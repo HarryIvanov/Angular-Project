@@ -1,0 +1,32 @@
+
+<section id="createPage">
+    <form #form="ngForm" (ngSubmit)=" newCardSubmitHandler(form)" class="createForm">
+        <img src="/assets/cat-create.jpg">
+        <div>
+            <h2>Create PetPal</h2>
+            <div class="name">
+                <label for="name">Name:</label>
+                <input name="name" id="name" type="text" placeholder="" ngModel
+                #inputName="ngModel"
+                required>
+            </div>
+            <div class="breed">
+                <label for="breed">Breed:</label>
+                <input name="breed" id="breed" type="text" placeholder="" ngModel>
+            </div>
+            <div class="Age">
+                <label for="age">Age:</label>
+                <input name="age" id="age" type="text" placeholder="" ngModel>
+            </div>
+            <div class="weight">
+                <label for="weight">Weight:</label>
+                <input name="weight" id="weight" type="text" placeholder="" ngModel>
+            </div>
+            <div class="image">
+                <label for="image">Image:</label>
+                <input name="image" id="image" type="text" placeholder="" ngModel>
+            </div>
+            <button class="btn" type="submit">Create Pet</button>
+        </div>
+    </form>
+</section>

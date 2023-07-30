@@ -1,0 +1,22 @@
+<section id="detailsPage">
+    <div *ngIf="card" class="details">
+        <div class="animalPic">
+            <img src={{card.image}}>
+        </div>
+        <div>
+            <div class="animalInfo">
+                <h1>Name: {{card.name}}</h1>
+                <h3>Breed: {{card.breed}}</h3>
+                <h4 *ngIf="card.age > 1">Age: {{card.age}} years</h4>
+                <h4 *ngIf="card.age == 1">Age: {{card.age}} year</h4>
+                <h4>Weight: {{card.weight}} kg</h4>
+                <h4 class="donation">Donation: 0$</h4>
+            </div>
+            <div *ngIf="isLogged" class="actionBtn">
+                <a [routerLink]="['edit-card/', card._id]" class="edit">Edit</a>
+                <a  class="remove" (click)="Delete()">Delete</a>
+                <a (click)="isOwner()" class="donate">Donate</a>
+            </div>
+        </div>
+    </div>
+</section>
