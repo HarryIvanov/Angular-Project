@@ -26,7 +26,8 @@ export class ApiService {
     breed: string,
     age: number,
     weight: number,
-    image: string
+    image: string,
+    owner: any
   ) {
     return this.http.post<Card>(`/server/pets`, {
       name,
@@ -34,6 +35,7 @@ export class ApiService {
       age,
       weight,
       image,
+      owner
     });
   }
   editCard(

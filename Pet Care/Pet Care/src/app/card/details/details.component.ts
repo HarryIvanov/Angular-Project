@@ -11,7 +11,7 @@ import { UserService } from 'src/app/user/user.service';
 })
 export class DetailsComponent implements OnInit {
   card: Card | undefined;
-
+  owner: boolean | undefined
   constructor(private apiService: ApiService, private activatedRoute: ActivatedRoute, private userService: UserService, private router: Router) {
     
   }
@@ -24,6 +24,7 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchCard();
+    this.isOwner();
   }
 
   fetchCard(): void {
@@ -46,12 +47,20 @@ export class DetailsComponent implements OnInit {
       }
     );
   }
-  owner = false;
-  isOwner() {
+  
+  isOwner() :void {
+   console.log(this.card?.owner);
+   console.log(this.userService.getUserId())
+   const ownerId = this.card?.owner 
+   const user = this.userService.getUserId();
    
-    console.log(this.userService.getInfo())
+   if (user == ownerId) {
+    this.owner = true;
+    console.log('owner');
     
-
+   }
+   console.log("not owner");
+   
   }
 }
 

@@ -5,6 +5,7 @@ import { BehaviorSubject, Subscription, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginRequest } from '../types/Login';
 import { USER_ACCESS_TOKEN } from '../shared/constants';
+import { UrlSerializer } from '@angular/router';
 
 
 
@@ -14,7 +15,7 @@ import { USER_ACCESS_TOKEN } from '../shared/constants';
 })
 export class UserService implements OnDestroy {
   private user$$ = new BehaviorSubject<User | undefined>(undefined);
-
+  private readonly userIdKey = 'user_id';
   public user$ = this.user$$.asObservable();
 
   user: User | undefined;
@@ -28,6 +29,7 @@ export class UserService implements OnDestroy {
       return false;
     }
   }
+  
   
   subscription: Subscription;
 
@@ -49,7 +51,7 @@ export class UserService implements OnDestroy {
       .post<LoginRequest>('/server/users/login', { email, password })
       .pipe(tap((loginRequest) => {
         localStorage.setItem(USER_ACCESS_TOKEN, loginRequest.accessToken);
-
+        
         this.user$$.next(loginRequest.user);
       }));
   }
@@ -58,8 +60,9 @@ export class UserService implements OnDestroy {
 
   logout(): void {
     this.user = undefined;
-    localStorage.removeItem(USER_ACCESS_TOKEN);
+    localStorage.clear()
   }
+
   register(
     email: string,
     password: string,
@@ -80,6 +83,14 @@ export class UserService implements OnDestroy {
     const { appUrl } = environment
     return this.http.get<User>(`${appUrl}/users/profile`)
     // .pipe(tap((user) => this.user$$.next(user)));
+  }
+
+  setUserId(userId: string): void {
+    localStorage.setItem(this.userIdKey, userId);
+  }
+
+  getUserId(): string | null {
+    return localStorage.getItem(this.userIdKey);
   }
   
 }

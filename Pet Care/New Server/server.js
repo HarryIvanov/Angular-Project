@@ -27,7 +27,7 @@ const PetSchema = new mongoose.Schema({
     age: Number,
     weight: Number,
     image: String,
-    creator: String
+    owner: String
 });
 
 // Define your Mongoose models
@@ -86,7 +86,7 @@ app.get('/pets', async (req, res) => {
 });
 
 app.post('/pets',  async (req, res) => {
-    const pet = new Pet({ name: req.body.name, breed: req.body.breed, age: req.body.age, weight: req.body.weight, image: req.body.image });
+    const pet = new Pet({ name: req.body.name, breed: req.body.breed, age: req.body.age, weight: req.body.weight, image: req.body.image, owner: req.body.owner });
     await pet.save();
     res.json(pet);
 });

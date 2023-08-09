@@ -5,5 +5,5 @@ export interface Card {
     "breed": string;
     "weight": number;
     "image": string;
-    "owner": string;
+    "owner": any
 }

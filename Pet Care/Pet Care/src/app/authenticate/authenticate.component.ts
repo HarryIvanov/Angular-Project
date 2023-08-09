@@ -15,7 +15,6 @@ export class AuthenticateComponent implements OnInit {
 
   ngOnInit(): void {
     const token = localStorage.getItem(USER_ACCESS_TOKEN)
-    console.log(token);
     
     if (token) {
       this.isAuthenticated = false;

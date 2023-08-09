@@ -12,11 +12,15 @@
                 <h4>Weight: {{card.weight}} kg</h4>
                 <h4 class="donation">Donation: 0$</h4>
             </div>
-            <div *ngIf="isLogged" class="actionBtn">
-                <a [routerLink]="['edit-card/', card._id]" class="edit">Edit</a>
-                <a  class="remove" (click)="Delete()">Delete</a>
-                <a (click)="isOwner()" class="donate">Donate</a>
-            </div>
+            <ng-container *ngIf="isOwner">
+
+                <div class="actionBtn">
+                    <a [routerLink]="['edit-card/', card._id]" class="edit">Edit</a>
+                    <a  class="remove" (click)="Delete()">Delete</a>
+                    <a (click)="isOwner()" class="donate">Donate</a>
+                </div>
+
+            </ng-container>
         </div>
     </div>
 </section>
