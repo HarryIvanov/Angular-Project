@@ -13,6 +13,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { appInterceptProvider } from './app.interceptor';
 import { AuthenticateComponent } from './authenticate/authenticate.component';
 import { UserModule } from './user/user.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 
@@ -23,7 +24,8 @@ import { UserModule } from './user/user.module';
     DashboardComponent,
     HomeComponent,
     WelcomeComponent,
-    AuthenticateComponent
+    AuthenticateComponent,
+    NotFoundComponent
   ],
   imports: [BrowserModule, AppRoutingModule, CoreModule, HttpClientModule, SharedModule, CardModule, UserModule],
   providers: [appInterceptProvider],

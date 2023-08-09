@@ -27,7 +27,9 @@ export class DashboardComponent implements OnInit {
       next: (cards) => {
         this.cardsList = cards;
         this.isLoading = false;
-        this.check = false;
+        if (cards.length == 0) {
+          this.check = false;
+        }
       },
       error: (err) => {
         this.isLoading = false;
