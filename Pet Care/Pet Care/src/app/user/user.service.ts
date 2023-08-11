@@ -79,10 +79,8 @@ export class UserService implements OnDestroy {
   }
 
   getInfo() {
-    console.log('im here');
     const { appUrl } = environment
     return this.http.get<User>(`${appUrl}/users/profile`)
-    // .pipe(tap((user) => this.user$$.next(user)));
   }
 
   setUserId(userId: string): void {

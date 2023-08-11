@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { Card } from 'src/app/types/Card';
 import { UserService } from 'src/app/user/user.service';
-import { NgForm } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit',
@@ -12,27 +13,29 @@ import { NgForm } from '@angular/forms';
 })
 export class EditComponent implements OnInit {
   card: Card | undefined;
-
-  constructor(private apiService: ApiService, private activatedRoute: ActivatedRoute, private userService: UserService, private router: Router) {
+  
+  
+  constructor(private apiService: ApiService, private activatedRoute: ActivatedRoute, private userService: UserService, private router: Router, private fb: FormBuilder) {
     
   }
   ngOnInit(): void {
     this.fetchCard();
-    
     
   }
 
   fetchCard(): void {
     const id = this.activatedRoute.snapshot.params['cardId'];
       this.apiService.getCard(id).subscribe((card) => {
-
         this.card = card;
       });
   }
+  
   editCardSubmitHandler(form:NgForm) :void {
     if(form.invalid){
       return;
     }
+    
+    
     let id = ""
     this.activatedRoute.params.subscribe((params) => {
       id = params['cardId'];

@@ -5,23 +5,23 @@
             <h2>Edit PetPal</h2>
             <div class="name">
                 <label for="name">Name:</label>
-                <input name="name" id="name" type="text" value={{this.card.name}} ngModel>
+                <input name="name" id="name" type="text" [(ngModel)]="card.name" ngModel >
             </div>
             <div class="breed">
                 <label for="breed">Breed:</label>
-                <input name="breed" id="breed" type="text" value={{card.breed}} ngModel>
+                <input name="breed" id="breed" type="text" [(ngModel)]="card.breed" ngModel>
             </div>
             <div class="Age">
                 <label for="age">Age:</label>
-                <input name="age" id="age" type="text" value="{{card.age}} years" ngModel>
+                <input name="age" id="age" type="text" [(ngModel)]="card.age" ngModel>
             </div>
             <div class="weight">
                 <label for="weight">Weight:</label>
-                <input name="weight" id="weight" type="text" value="{{card.weight}}kg" ngModel>
+                <input name="weight" id="weight" type="text" [(ngModel)]="card.weight" ngModel>
             </div>
             <div class="image">
                 <label for="image">Image:</label>
-                <input name="image" id="image" type="text" value="{{card.image}}" ngModel>
+                <input name="image" id="image" type="text" [(ngModel)]="card.image" ngModel>
             </div>
             <button class="btn" type="submit">Edit Pet</button>
         </div>

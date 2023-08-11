@@ -15,7 +15,7 @@
             <ng-container *ngIf="owns">
 
                 <div class="actionBtn">
-                    <a [routerLink]="['edit-card/', card._id]" class="edit">Edit</a>
+                    <a  class="edit" (click)="Edit(card._id)">Edit</a>
                     <a  class="remove" (click)="Delete()">Delete</a>
                     <!-- <a (click)="isOwner()" class="donate">Donate</a> -->
                 </div>

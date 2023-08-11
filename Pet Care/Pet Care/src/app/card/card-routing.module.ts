@@ -29,7 +29,7 @@ const routes: Routes = [
 
   },
   {
-    path: 'dashboard/:cardId/edit-card/:cardId',
+    path: 'edit-card/:cardId',
     component: EditComponent
   }
 

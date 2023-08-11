@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { Card } from 'src/app/types/Card';
@@ -57,6 +57,9 @@ export class DetailsComponent implements OnInit {
         console.error('Error:', error);
       }
     );
+  }
+  Edit(id: string) {
+    this.router.navigate([`/edit-card/${id}`])
   }
 
   // isOwner(): void {

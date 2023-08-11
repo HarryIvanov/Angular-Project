@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Card } from './types/Card';
-import { Observable } from 'rxjs';
-import { User } from './types/user';
+
 
 @Injectable({
   providedIn: 'root',
@@ -55,8 +54,31 @@ export class ApiService {
     });
   }
   deleteCard(id: string) {
-    // Use the ID in the URL to identify the resource to delete
+    
     return this.http.delete<Card>(`/server/pets/${id}`);
+  }
+
+  addCard(id: string,
+  name: string,
+  age: number,
+  breed: string,
+  weight: number,
+  image: string,
+  owner: any ): void {
+    // Create a new card using the Card interface
+    const newCard: Card = {
+      _id: id,
+      name: name,
+      age: age,
+      breed: breed,
+      weight: weight,
+      image: image,
+      owner: owner
+      
+    };
+
+    // Push the new card into the user's cards array
+    // this.user.cards.push(newCard);
   }
   
  
