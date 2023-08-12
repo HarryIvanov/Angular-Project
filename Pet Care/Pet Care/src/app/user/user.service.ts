@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { User } from '../types/user';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Subscription, tap } from 'rxjs';
+import { BehaviorSubject, Subscription, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginRequest } from '../types/Login';
 import { USER_ACCESS_TOKEN } from '../shared/constants';
@@ -39,22 +39,22 @@ export class UserService implements OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    throw new Error();
+    this.subscription.unsubscribe();
   }
-  
 
 
   login(email: string, password: string) {
-   
-    
     return this.http
-      .post<LoginRequest>('/server/users/login', { email, password })
-      .pipe(tap((loginRequest) => {
-        localStorage.setItem(USER_ACCESS_TOKEN, loginRequest.accessToken);
-        
-        this.user$$.next(loginRequest.user);
-      }));
-  }
+        .post<LoginRequest>('/server/users/login', { email, password })
+        .pipe(tap((loginRequest) => {
+            localStorage.setItem(USER_ACCESS_TOKEN, loginRequest.accessToken);
+            
+            // Set the user's ID in local storage
+            localStorage.setItem(this.userIdKey, loginRequest.user._id);
+
+            this.user$$.next(loginRequest.user);
+        }));
+}
 
   
 
@@ -66,16 +66,21 @@ export class UserService implements OnDestroy {
   register(
     email: string,
     password: string,
-    rePassword: string,
+    rePassword: string
   ) {
-    const { appUrl } = environment
+    const { appUrl } = environment;
     return this.http
-      .post<User>(`${appUrl}/users/register`, {
+      .post<LoginRequest>(`${appUrl}/users/register`, {
         email,
         password,
         rePassword,
       })
-      .pipe(tap((user) => this.user$$.next(user)));
+      .pipe(
+        tap((loginRequest) => {
+          localStorage.setItem(USER_ACCESS_TOKEN, loginRequest.accessToken);
+          this.user$$.next(loginRequest.user);
+        })
+      );
   }
 
   getInfo() {

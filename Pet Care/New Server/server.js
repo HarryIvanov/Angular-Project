@@ -43,7 +43,14 @@ app.post('/users/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = new User({ email: req.body.email, password: hashedPassword });
         await user.save();
-        res.status(201).json({ message: "User registered successfully!" });
+    
+        const accessToken = jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN_SECRET);
+    
+        res.status(201).json({
+            message: "User registered successfully!",
+            accessToken: accessToken,
+            user: user // Send the user information including the ID
+        });
     } catch {
         res.status(500).send();
     }

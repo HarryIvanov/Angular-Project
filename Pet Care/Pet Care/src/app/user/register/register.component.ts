@@ -37,16 +37,21 @@ export class RegisterComponent {
 
   register(): void {
     if (this.form.invalid) {
-      return;
+        return;
     }
-    const {
-      email,
-      passGroup: { password, rePassword } = {},
-    } = this.form.value;
-    this.userService
-      .register(email!, password!, rePassword!)
-      .subscribe(() => {
-        this.router.navigate(['/']);
-      });
-  }
+
+    const email = this.form.get('email')?.value;
+    const password = this.form.get('passGroup.password')?.value;
+    const rePassword = this.form.get('passGroup.rePassword')?.value;
+
+    if (!email || !password || !rePassword) {
+        return;
+    }
+
+    this.userService.register(email, password, rePassword).subscribe((response) => {
+        localStorage.setItem('user_id', response.user._id); // Set the user's ID
+        localStorage.setItem('access_token', response.accessToken); // Set the access token
+        this.router.navigate(['/']); // Redirect to a protected route
+    });
+}
 }
