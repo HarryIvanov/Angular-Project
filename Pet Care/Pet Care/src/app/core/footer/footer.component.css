@@ -1,0 +1,9 @@
+footer {
+    font-weight: bolder;
+    text-align: center;
+    padding: 10px;
+    background-color: #cf3709af;
+    width: auto;
+    max-height: 2rem;
+    margin-top: auto; /* Push the footer to the bottom */
+  }

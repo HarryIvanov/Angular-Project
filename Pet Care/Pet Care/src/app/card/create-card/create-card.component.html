@@ -1,32 +1,64 @@
-
 <section id="createPage">
-    <form #form="ngForm" (ngSubmit)=" newCardSubmitHandler(form)" class="createForm">
+    <form [formGroup]="form" (ngSubmit)=" newCardSubmitHandler()" class="createForm">
         <img src="/assets/cat-create.jpg">
         <div>
             <h2>Create PetPal</h2>
             <div class="name">
                 <label for="name">Name:</label>
-                <input name="name" id="name" type="text" placeholder="" ngModel
-                #inputName="ngModel"
-                required>
+                <input name="name" id="name" type="text" placeholder="" formControlName="name">
             </div>
+            <ng-container *ngIf="form.get('name')?.touched">
+                <p *ngIf="form.get('name')?.hasError('required') && form.get('name')?.touched" class="error">
+                    Name is required!
+                </p>
+            </ng-container>
             <div class="breed">
                 <label for="breed">Breed:</label>
-                <input name="breed" id="breed" type="text" placeholder="" ngModel>
+                <input name="breed" id="breed" type="text" placeholder="" formControlName="breed">
             </div>
+            <ng-container *ngIf="form.get('breed')?.touched">
+                <p *ngIf="form.get('breed')?.hasError('required') && form.get('breed')?.touched" class="error">
+                    Breed is required!
+                </p>
+            </ng-container>
             <div class="Age">
                 <label for="age">Age:</label>
-                <input name="age" id="age" type="text" placeholder="" ngModel>
+                <input name="age" id="age" type="text" placeholder="" formControlName="age">
             </div>
+            <ng-container *ngIf="form.get('age')?.touched">
+                <p *ngIf="form.get('age')?.hasError('required') && form.get('age')?.touched" class="error">
+                    Age is required!
+                </p>
+                <p
+                *ngIf="form.get('age')?.hasError('notANumber')" class="error"
+            >
+              Age must be a number!
+            </p>
+            </ng-container>
             <div class="weight">
                 <label for="weight">Weight:</label>
-                <input name="weight" id="weight" type="text" placeholder="" ngModel>
+                <input name="weight" id="weight" type="text" placeholder="" formControlName="weight">
             </div>
+            <ng-container *ngIf="form.get('weight')?.touched">
+                <p *ngIf="form.get('weight')?.hasError('required') && form.get('weight')?.touched" class="error">
+                    Weight is required!
+                </p>
+                <p
+                *ngIf="form.get('weight')?.hasError('notANumber')" class="error"
+            >
+              Weight must be a number!
+            </p>
+            </ng-container>
             <div class="image">
                 <label for="image">Image:</label>
-                <input name="image" id="image" type="text" placeholder="" ngModel>
+                <input name="image" id="image" type="text" placeholder="" formControlName="image">
             </div>
-            <button class="btn" type="submit">Create Pet</button>
+            <ng-container *ngIf="form.get('image')?.touched">
+                <p *ngIf="form.get('image')?.hasError('required') && form.get('image')?.touched" class="error">
+                    Image is required!
+                </p>
+            </ng-container>
+            <button [disabled]="form.invalid" class="btn" type="submit">Create Pet</button>
         </div>
     </form>
 </section>

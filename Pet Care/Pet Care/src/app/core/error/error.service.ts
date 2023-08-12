@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ErrorService {
-  apiError$$ = new BehaviorSubject(null)
-  constructor() { }
-  setError(error: any):void {
+  private apiError$$ = new BehaviorSubject<any>(null);
+
+  get apiError$(): Observable<any> {
+    return this.apiError$$.asObservable();
+  }
+
+  setError(error: any): void {
     this.apiError$$.next(error);
   }
 }

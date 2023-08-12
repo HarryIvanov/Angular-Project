@@ -10,16 +10,20 @@
                 <h4 *ngIf="card.age > 1">Age: {{card.age}} years</h4>
                 <h4 *ngIf="card.age == 1">Age: {{card.age}} year</h4>
                 <h4>Weight: {{card.weight}} kg</h4>
-                <h4 class="donation">Donation: 0$</h4>
+                <h4 class="donation">Donations: {{card.donation}}$</h4>
             </div>
             <ng-container *ngIf="owns">
 
                 <div class="actionBtn">
                     <a  class="edit" (click)="Edit(card._id)">Edit</a>
                     <a  class="remove" (click)="Delete()">Delete</a>
-                    <!-- <a (click)="isOwner()" class="donate">Donate</a> -->
                 </div>
-
+                
+            </ng-container>
+            <ng-container *ngIf="!owns">
+                <div class="actionBtn">
+                    <a (click)="donate()" *ngIf="isLogged" class="donate">Donate 5$</a>
+                </div>
             </ng-container>
         </div>
     </div>

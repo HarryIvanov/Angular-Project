@@ -34,6 +34,8 @@ export class DetailsComponent implements OnInit {
       this.card = card;
       const ownerId = this.card?.owner;
       const user = this.userService.getUserId();
+      console.log(card);
+      
 
       if (user == ownerId) {
         this.owns = true;
@@ -61,20 +63,25 @@ export class DetailsComponent implements OnInit {
   Edit(id: string) {
     this.router.navigate([`/edit-card/${id}`])
   }
+  donate() {
+    if (!this.card) {
+      return;
+    }
+  
+    // Increment the donation amount by $5
+    this.card.donation = (this.card.donation || 0) + 5;
+  
+    // Update the card in the database
+    this.apiService.updateCard(this.card).subscribe(
+      (updatedCard) => {
+        // Update the card details with the response
+        this.card = updatedCard;
+        console.log('Donation successful');
+      },
+      (error) => {
+        console.error('Error donating:', error);
+      }
+    );
+  }
 
-  // isOwner(): void {
-  //   console.log(this.card);
-  //   console.log(this.card?.owner);
-  //   console.log(this.userService.getUserId());
-  //   const ownerId = this.card?.owner;
-  //   const user = this.userService.getUserId();
-
-  //   if (user == ownerId) {
-  //     this.owns = true;
-  //     console.log('owner');
-  //   } else {
-  //     this.owns = false;
-  //     console.log('not owner');
-  //   }
-  // }
 }

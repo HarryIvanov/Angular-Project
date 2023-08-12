@@ -14,6 +14,8 @@ import { appInterceptProvider } from './app.interceptor';
 import { AuthenticateComponent } from './authenticate/authenticate.component';
 import { UserModule } from './user/user.module';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ErrorComponent } from './core/error/error.component';
+
 
 
 
@@ -25,7 +27,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     HomeComponent,
     WelcomeComponent,
     AuthenticateComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ErrorComponent
   ],
   imports: [BrowserModule, AppRoutingModule, CoreModule, HttpClientModule, SharedModule, CardModule, UserModule],
   providers: [appInterceptProvider],

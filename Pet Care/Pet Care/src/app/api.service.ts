@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Card } from './types/Card';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -26,7 +27,8 @@ export class ApiService {
     age: number,
     weight: number,
     image: string,
-    owner: any
+    owner: any,
+    donation: number
   ) {
     return this.http.post<Card>(`/server/pets`, {
       name,
@@ -34,7 +36,7 @@ export class ApiService {
       age,
       weight,
       image,
-      owner
+      owner, donation
     });
   }
   editCard(
@@ -73,14 +75,22 @@ export class ApiService {
       breed: breed,
       weight: weight,
       image: image,
-      owner: owner
+      owner: owner,
+      donation: 0
       
     };
 
     // Push the new card into the user's cards array
     // this.user.cards.push(newCard);
   }
+  updateCard(card: Card) {
+    return this.http.put<Card>(`/server/pets/${card._id}`, card);
+  }
+  getTotalDonations(): Observable<{ totalDonations: number }> {
+    const { appUrl } = environment;
   
+    return this.http.get<{ totalDonations: number }>(`${appUrl}/total-donations`);
+  }
  
   
 }

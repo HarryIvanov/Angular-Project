@@ -1,18 +1,29 @@
-import { Component } from '@angular/core';
-import { UserService } from '../user/user.service';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../api.service';
+
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
-export class WelcomeComponent {
-  constructor(private userService: UserService, private router: Router) {
+export class WelcomeComponent implements OnInit {
+  totalDonations: number | undefined;
 
-  }
+  constructor(private apiService: ApiService) {}
 
-  get isLogged(): boolean {
-      return this.userService.isLogged
+  ngOnInit(): void {
+    this.apiService.getTotalDonations().subscribe(
+      response => {
+        if (response && response.totalDonations !== undefined) {
+          this.totalDonations = response.totalDonations;
+        } else {
+        }
+      },
+      error => {
+        console.error('Error fetching total donations:', error);
+      }
+    );
   }
 }
+

@@ -15,7 +15,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/PetCare', { useNewUrlParser: true, u
 .catch(err => console.error('Could not connect to MongoDB...', err));
 
 
-// Define your Mongoose schemas
 const UserSchema = new mongoose.Schema({
     email: String,
     password: String
@@ -27,22 +26,17 @@ const PetSchema = new mongoose.Schema({
     age: Number,
     weight: Number,
     image: String,
-    owner: String
+    owner: String,
+    donation: Number
 });
 
-// Define your Mongoose models
 const User = mongoose.model('User', UserSchema);
 const Pet = mongoose.model('Pet', PetSchema);
 
 app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
 app.use(bodyParser.json());
 
-// Helper function
-function authenticateToken(req, res, next) {
-    // rest of your code...
-}
 
-// Update the endpoints to use Mongoose
 
 app.post('/users/register', async (req, res) => {
     try {
@@ -63,12 +57,9 @@ app.post('/users/login', async (req, res) => {
     }
 
     try {
-        // Check the password
         if(await bcrypt.compare(req.body.password, user.password)) {
-            // Create and assign a token
             console.log( process.env.ACCESS_TOKEN_SECRET, ' process.env.ACCESS_TOKEN_SECRET');
             const accessToken = jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN_SECRET);
-            // Remove sensitive data
             user.password = undefined;
             res.json({ accessToken: accessToken, user: user });
         } else {
@@ -86,7 +77,8 @@ app.get('/pets', async (req, res) => {
 });
 
 app.post('/pets',  async (req, res) => {
-    const pet = new Pet({ name: req.body.name, breed: req.body.breed, age: req.body.age, weight: req.body.weight, image: req.body.image, owner: req.body.owner });
+    const pet = new Pet({ name: req.body.name, breed: req.body.breed, age: req.body.age, weight: req.body.weight, image: req.body.image, owner: req.body.owner, donation: req.body.donation });
+    console.log(req.body);
     await pet.save();
     res.json(pet);
 });
@@ -95,24 +87,28 @@ app.get('/pets/:id', async (req, res) => {
     const pet = await Pet.findById(req.params.id);
     if (!pet) return res.status(404).json({ error: "Pet not found." });
 
-    // if (pet.creator !== req.user.username) return res.status(403).json({ error: "You're not allowed to edit this pet." });
-
-    // pet.name = req.body.name;
-    // await pet.save();
     res.json(pet);
 });
 app.put('/pets/:id', async (req, res) => {
-    const pet = req.body
-    const id = req.params.id
-    console.log(pet, id);
+    const id = req.params.id;
+    const updatedPetData = req.body;
 
-    await Pet.findByIdAndUpdate(id, pet);
-    
-    // const pet = await Pet.findByIdAndUpdate(id, data);
-    
-    // if (!pet) return res.status(404).json({ error: "Pet not found." });
+    if (typeof updatedPetData.donation !== 'undefined') {
+        updatedPetData.donation = parseFloat(updatedPetData.donation);
+    }
 
-    res.json(pet);
+    try {
+        const updatedPet = await Pet.findByIdAndUpdate(id, updatedPetData, { new: true });
+
+        if (!updatedPet) {
+            return res.status(404).json({ error: 'Pet not found.' });
+        }
+
+        res.json(updatedPet);
+    } catch (error) {
+        console.error('Error updating pet:', error);
+        res.status(500).json({ error: 'Internal server error.' });
+    }
 });
 app.delete('/pets/:id', async (req, res) => {
     await Pet.findByIdAndDelete(req.params.id)
@@ -128,6 +124,29 @@ app.delete('/pets/:id', async (req, res) => {
     //     .then(user => { res.status(200).json(user) })
     //     .catch(next);
   })
+  app.get('/total-donations', async (req, res) => {
+    try {
+        const totalDonationsResult = await Pet.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    total: { $sum: "$donation" } // Use $sum to calculate total donations
+                }
+            }
+        ]);
+
+        if (totalDonationsResult.length > 0) {
+            const totalDonations = totalDonationsResult[0].total;
+            res.json({ totalDonations: totalDonations });
+        } else {
+            res.json({ totalDonations: 0 }); // Return 0 if no donations exist
+        }
+    } catch (error) {
+        console.error('Error calculating total donations:', error);
+        res.status(500).json({ error: 'Error calculating total donations' });
+    }
+});
+
 
 
 

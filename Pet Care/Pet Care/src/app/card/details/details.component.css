@@ -1,0 +1,20 @@
+#detailsPage {
+    display: grid;
+    justify-items: center;
+    padding-bottom: 3rem; /* Add padding at the bottom */
+  }
+  
+  .details {
+    display: block;
+    position: relative;
+    width: 700px;
+    height: 350px;
+    border-radius: 20px;
+    padding: 40px;
+    box-sizing: border-box;
+    background: #cf370991;
+    box-shadow: 14px 14px 30px #464a4e, -14px -14px 30px #464a4e;
+    margin-bottom: 3rem; /* Add margin at the bottom */
+    justify-content: center;
+    margin-top: 3rem;
+  }
